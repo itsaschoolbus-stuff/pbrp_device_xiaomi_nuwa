@@ -6,7 +6,6 @@
 
 # Building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
-OF_SCREEN_H=2400
 
 # Architecture
 TARGET_ARCH := arm64
@@ -27,7 +26,7 @@ ENABLE_SCHEDBOOST := true
 
 # Bootloader
 PRODUCT_PLATFORM := kalama
-TARGET_BOOTLOADER_BOARD_NAME := nuwa
+TARGET_BOOTLOADER_BOARD_NAME := kalama
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 
@@ -35,7 +34,7 @@ TARGET_USES_UEFI := true
 TARGET_BOARD_PLATFORM := xiaomi_sm8550
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno740
 QCOM_BOARD_PLATFORMS += xiaomi_sm8550
-#BOARD_USES_QCOM_HARDWARE := true
+BOARD_USES_QCOM_HARDWARE := true
 
 # Kernel
 BOARD_KERNEL_PAGESIZE         := 4096
@@ -56,31 +55,35 @@ BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 
 AB_OTA_UPDATER := true
-AB_OTA_PARTITIONS += \
+AB_OTA_PARTITIONS := \
     boot \
-    init_boot \
-    vendor_boot \
     dtbo \
-    vbmeta \
-    vbmeta_system \
+    init_boot \
     odm \
     product \
+    recovery \
     system \
-    system_ext \
     system_dlkm \
+    system_ext \
+    vbmeta \
+    vbmeta_system \
     vendor \
+    vendor_boot \
     vendor_dlkm
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
 
+# Assert
+TARGET_OTA_ASSERT_DEVICE := nuwa
+
 # Partitions
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 104857600
 
 # Dynamic Partition
-BOARD_SUPER_PARTITION_SIZE := 9653190656
+BOARD_SUPER_PARTITION_SIZE := 9663676416
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9648996352
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9659482112
 BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor vendor_dlkm odm
 
 BOARD_PARTITION_LIST := $(call to-upper, $(BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST))
@@ -159,4 +162,6 @@ TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko fts_touch_spi.ko qti_battery_char
 TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone35/temp"
 TW_BATTERY_SYSFS_WAIT_SECONDS := 6
 TW_BACKUP_EXCLUSIONS := /data/fonts
-TW_DEVICE_VERSION := Xiaomi_13_Pro-A13
+
+# PBRP
+PB_DISABLE_DEFAULT_DM_VERITY := true
